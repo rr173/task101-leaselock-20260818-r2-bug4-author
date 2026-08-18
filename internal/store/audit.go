@@ -93,6 +93,9 @@ func (s *Store) TokenHistory(resource string) ([]lease.AuditEntry, error) {
 			if err := json.Unmarshal(v, &p); err != nil {
 				return fmt.Errorf("decode audit %q: %w", string(k), err)
 			}
+			if resource != "" && p.Resource != resource {
+				continue
+			}
 			if !issuance[p.Action] {
 				continue
 			}
